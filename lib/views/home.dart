@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:world_time_app/data/data.dart';
 import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
 import 'package:flutter/material.dart';
@@ -16,58 +15,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 //
-class UserSearchString extends SearchDelegate{
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [IconButton(icon: Icon(Icons.close), onPressed: (){
 
-
-    })];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    // TODO: implement buildLeading
-    return IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
-
-      Navigator.pop(context);
-
-    });
-  }
-  String selectedResult;
-
-  @override
-  Widget buildResults(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(selectedResult),
-      ),
-    );
-
-  }
-
-  List<String> recentList = ['Text 2','Text 3'];
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> listExample =['Text 2','Text 3'];
-      List<String> suggestLst =[];
-          query.isEmpty ?  suggestLst =recentList:suggestLst.addAll(listExample.where(
-            (element)=>element.contains(query),
-          )) ;
-
-          return ListView.builder(itemCount:suggestLst.length,itemBuilder: (context,index){
-            return ListTile(
-              title: Text(suggestLst[index]),
-            );
-          });
-  }
-
-}
 
 String wordsearch='안녕하세요 잘 지내세요';
 class _HomePageState extends State<HomePage> {
 
-  List<String> categories = ["Adults","Childrens","Womens","Mens"];
 
   List<SpecialityModel> specialities;
 
@@ -78,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     // TODO: implement initState
     super.initState();
 
-    specialities = getSpeciality();
   }
 
   @override
@@ -200,48 +151,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                /*
-                Container(
-                  height: 30,
-                  child: ListView.builder(
-                  itemCount: categories.length,
-                      shrinkWrap: true,
-                      physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index){
-                    return CategorieTile(
-                      categorie: categories[index],
-                      isSelected: selectedCategorie == categories[index],
-                      context: this,
-                    );
-                      }),
-                ),
-                SizedBox(height: 20,),
-                Container(
-                  height: 250,
-                  child: ListView.builder(
-                      itemCount: specialities.length,
-                      shrinkWrap: true,
-                      physics: ClampingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index){
-                        return SpecialistTile(
-                          imgAssetPath: specialities[index].imgAssetPath,
-                          speciality: specialities[index].speciality,
-                          noOfDoctors: specialities[index].noOfDoctors,
-                          backColor: specialities[index].backgroundColor,
-                        );
-                      }),
-                ),
-                SizedBox(height: 20,),
-                Text("오늘 관련 글", style: TextStyle(
-                    color: Colors.black87.withOpacity(0.8),
-                    fontSize: 25,
-                    fontWeight: FontWeight.w600
-                ),),
-                SizedBox(height: 20,),
-                DoctorsTile()
-                */
+
               ],
             ),
           ),
@@ -399,3 +309,68 @@ class DoctorsTile extends StatelessWidget {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class UserSearchString extends SearchDelegate{
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [IconButton(icon: Icon(Icons.close), onPressed: (){
+
+
+    })];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
+
+      Navigator.pop(context);
+
+    });
+  }
+  String selectedResult;
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text(selectedResult),
+      ),
+    );
+
+  }
+
+  List<String> recentList = ['Text 2','Text 3'];
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> listExample =['Text 2','Text 3'];
+    List<String> suggestLst =[];
+    query.isEmpty ?  suggestLst =recentList:suggestLst.addAll(listExample.where(
+          (element)=>element.contains(query),
+    )) ;
+
+    return ListView.builder(itemCount:suggestLst.length,itemBuilder: (context,index){
+      return ListTile(
+        title: Text(suggestLst[index]),
+      );
+    });
+  }
+
+}

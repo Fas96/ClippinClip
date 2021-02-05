@@ -8,14 +8,14 @@ import 'package:world_time_app/views/savedVideolist.dart';
 import 'package:world_time_app/views/searchresult.dart';
 import 'views/home.dart';
 import 'views/savedVideolist.dart';
-import 'views/savedVideolist.dart';
+import 'package:world_time_app/views/singleclip.dart';
 
 void main() {
   runApp( MaterialApp(
     initialRoute: '/',
     routes: {
 
-      '/location':(context)=>ChooseLocation(),
+      '/simpleClip':(context)=>SingleClip(),
       '/':(context)=>SavedFiles()
       ,
     },

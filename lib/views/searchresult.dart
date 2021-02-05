@@ -23,7 +23,6 @@ class SearchResult extends StatefulWidget {
   Map data;
   SearchResult({@required this.data}) {
 
-
     words = data['translated'].split(" ");
   }
 }

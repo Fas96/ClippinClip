@@ -10,9 +10,24 @@ class SavedFiles extends StatefulWidget {
 }
 
 class _SavedFilesState extends State<SavedFiles> {
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
+    return Scaffold(
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: (){
+            Navigator.pushNamed(context, '/simpleClip',arguments:
+            {
+
+            }
+            );
+          },
+          label: Text('Q&A'),
+          icon: Icon(Icons.question_answer),
+          backgroundColor: Colors.pink,
+        ),
+
+        body: FutureBuilder(
       future: () async {
         Database db = await DatabaseHelper.instance.database;
         return await db.query("clips");
@@ -22,11 +37,13 @@ class _SavedFilesState extends State<SavedFiles> {
             List<Map<String, dynamic>> list = snapshot.data.toList();
             print('--------------------');
             print(list);
+
             print('--------------------');
             return new StaggeredGridView.countBuilder(
               crossAxisCount: 4,
               itemCount: list.length+3,
               itemBuilder: (BuildContext context, int index) => new Container(
+
                 width: 100,
                 height: 100,
                 child: Card(
@@ -46,6 +63,7 @@ class _SavedFilesState extends State<SavedFiles> {
           return Center(child: CircularProgressIndicator());
         }
       }
-    );
+    ));
   }
 }
+
