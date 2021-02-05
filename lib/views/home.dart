@@ -1,9 +1,10 @@
 import 'package:world_time_app/data/data.dart';
 import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
-import 'package:world_time_app/model/usersearch.dart';
 import 'package:flutter/material.dart';
 import 'searchresult.dart';
+import 'singleclip.dart';
+import 'addbutton.dart';
 
 String selectedCategorie= "Adults";
 
@@ -110,99 +111,137 @@ class _HomePageState extends State<HomePage> {
         ),// Populate the Drawer in the next step.
       ),
      ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          padding: EdgeInsets.symmetric(vertical: 10,horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SizedBox(height: 10,),
-              Text("단어 검색", style: TextStyle(
-                color: Colors.black87.withOpacity(0.8),
-                fontSize: 30,
-                fontWeight: FontWeight.w600
-              ),),
-              SizedBox(height: 40,),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                height: 50,
-                decoration: BoxDecoration(
-                  color: Color(0xffEFEFEF),
-                  borderRadius: BorderRadius.circular(14)
-                ),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.search),
-                        onPressed: () => _submitted(_controller.text))
-                    ,
-                    SizedBox(width: 10,),
-                    Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      onSubmitted: _submitted,
-                      decoration: new InputDecoration(
-                          border: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          hintText: '검색'
+      body: Builder (builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SizedBox(height: 10,),
+                Text("단어 검색", style: TextStyle(
+                  color: Colors.black87.withOpacity(0.8),
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600
+                ),),
+                SizedBox(height: 40,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: Color(0xffEFEFEF),
+                    borderRadius: BorderRadius.circular(14)
+                  ),
+                  child: Row(
+                    children: <Widget>[
+                      IconButton(
+                          icon: Icon(Icons.search),
+                          onPressed: () => _submitted(_controller.text))
+                      ,
+                      SizedBox(width: 10,),
+                      Expanded(
+                      child: TextField(
+                        controller: _controller,
+                        onSubmitted: _submitted,
+                        decoration: new InputDecoration(
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            hintText: '검색'
+                        ),
                       ),
-                    ),
-                   )
-                  ],
+                     )
+                    ],
 
+                  ),
                 ),
-              ),
-              SizedBox(height: 30,),
-              Text("검색 관련 영상", style: TextStyle(
-                  color: Colors.black87.withOpacity(0.8),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-              ),),
-              SizedBox(height: 20,),
-              Container(
-                height: 30,
-                child: ListView.builder(
-                itemCount: categories.length,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                  return CategorieTile(
-                    categorie: categories[index],
-                    isSelected: selectedCategorie == categories[index],
-                    context: this,
-                  );
-                    }),
-              ),
-              SizedBox(height: 20,),
-              Container(
-                height: 250,
-                child: ListView.builder(
-                    itemCount: specialities.length,
-                    shrinkWrap: true,
-                    physics: ClampingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index){
-                      return SpecialistTile(
-                        imgAssetPath: specialities[index].imgAssetPath,
-                        speciality: specialities[index].speciality,
-                        noOfDoctors: specialities[index].noOfDoctors,
-                        backColor: specialities[index].backgroundColor,
-                      );
-                    }),
-              ),
-              SizedBox(height: 20,),
-              Text("오늘 관련 글", style: TextStyle(
-                  color: Colors.black87.withOpacity(0.8),
-                  fontSize: 25,
-                  fontWeight: FontWeight.w600
-              ),),
-              SizedBox(height: 20,),
-              DoctorsTile()
-            ],
+                SizedBox(height: 30,),
+                Text("Daily Clip", style: TextStyle(
+                    color: Colors.black87.withOpacity(0.8),
+                    fontSize: 30,
+                    fontWeight: FontWeight.w600
+                ),),
+                SizedBox(height: 20,),
+
+                Stack(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                SingleClip(sentence: "Hello")));
+                        },
+                      child:
+                        Center (
+                          child: Padding (
+                            padding: EdgeInsets.all(30),
+                            child: Container (
+                              width: 300,
+                              height: 225,
+                              decoration: BoxDecoration (
+                                color: Colors.grey,
+                              ),
+                              child: Center(child: Text("Hello")),
+                            ),
+                          ),
+                        ) 
+                    ),
+                    Positioned(
+                      right: 10,
+                      bottom: 10,  
+                      child: addButton(context),
+                    ),
+                  ],
+                ),
+                /*
+                Container(
+                  height: 30,
+                  child: ListView.builder(
+                  itemCount: categories.length,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index){
+                    return CategorieTile(
+                      categorie: categories[index],
+                      isSelected: selectedCategorie == categories[index],
+                      context: this,
+                    );
+                      }),
+                ),
+                SizedBox(height: 20,),
+                Container(
+                  height: 250,
+                  child: ListView.builder(
+                      itemCount: specialities.length,
+                      shrinkWrap: true,
+                      physics: ClampingScrollPhysics(),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index){
+                        return SpecialistTile(
+                          imgAssetPath: specialities[index].imgAssetPath,
+                          speciality: specialities[index].speciality,
+                          noOfDoctors: specialities[index].noOfDoctors,
+                          backColor: specialities[index].backgroundColor,
+                        );
+                      }),
+                ),
+                SizedBox(height: 20,),
+                Text("오늘 관련 글", style: TextStyle(
+                    color: Colors.black87.withOpacity(0.8),
+                    fontSize: 25,
+                    fontWeight: FontWeight.w600
+                ),),
+                SizedBox(height: 20,),
+                DoctorsTile()
+                */
+              ],
+            ),
           ),
-        ),
+        );
+      }
       ),
     );
   }
