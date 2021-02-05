@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'singleclip.dart';
 import 'addbutton.dart';
 
@@ -11,13 +14,17 @@ List<List<String>> sentences = [
   ["Manner makes man", "Man!"],
 ];
 
+String wordsearch='안녕하세요 잘 지내세요';
+
 class SearchResult extends StatefulWidget {
   @override
   _SearchResultState createState() => _SearchResultState();
 
-  String sentence;
-  SearchResult({@required this.sentence}) {
-    words = sentence.split(" ");
+  Map data;
+  SearchResult({@required this.data}) {
+
+
+    words = data['translated'].split(" ");
   }
 }
 
@@ -79,17 +86,13 @@ class _SearchResultState extends State<SearchResult> {
                   children: <Widget>[
                     IconButton(
                         icon: Icon(Icons.search),
-                        onPressed: () => Navigator.push(context, MaterialPageRoute(
-                          builder: (context) => SearchResult(sentence: _controller.text)
-                        ))
+                        onPressed: () => _submitted(_controller.text)
                     ),
                     SizedBox(width: 10,),
                     Expanded(
                     child: TextField(
                       controller: _controller,
-                      onSubmitted: (String text) => Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => SearchResult(sentence: text)
-                      )),
+                      onSubmitted: _submitted,
                       decoration: new InputDecoration(
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
@@ -213,5 +216,18 @@ class _SearchResultState extends State<SearchResult> {
       }
       ),
     );
+  }
+  Future<void> _submitted(String text) async {
+    wordsearch = text;
+    Response response = await get( 'http://beerabbit.kr/api/clipApi.php?kor='+wordsearch);
+    //convert to json
+    Map data=jsonDecode(response.body);
+    print('--------------------response---------------------');
+    print('http://beerabbit.kr/data/'+ data['0']);
+
+    Navigator.push(context, MaterialPageRoute(
+
+        builder: (context) => SearchResult(data: data)
+    ));
   }
 }

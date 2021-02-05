@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:http/http.dart';
 import 'package:world_time_app/data/data.dart';
 import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
@@ -60,6 +63,8 @@ class UserSearchString extends SearchDelegate{
   }
 
 }
+
+String wordsearch='안녕하세요 잘 지내세요';
 class _HomePageState extends State<HomePage> {
 
   List<String> categories = ["Adults","Childrens","Womens","Mens"];
@@ -171,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) =>
-                                SingleClip(sentence: "Hello")));
+                              SingleClip(sentence: "Hello")));
                         },
                       child:
                         Center (
@@ -245,9 +250,18 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-  void _submitted(String text) {
+
+  Future<void> _submitted(String text) async {
+    wordsearch = text;
+    Response response = await get( 'http://beerabbit.kr/api/clipApi.php?kor='+wordsearch);
+    //convert to json
+    Map data=jsonDecode(response.body);
+    print('--------------------response---------------------');
+    print('http://beerabbit.kr/data/'+ data['0']);
+
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => SearchResult(sentence: text)
+
+        builder: (context) => SearchResult(data: data)
     ));
   }
 }
