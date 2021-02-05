@@ -32,7 +32,7 @@ class _SingleClipState extends State<SingleClip> {
                 flex: 1,
                 child: FittedBox(
                   fit: BoxFit.fitWidth, 
-                  child: Text(widget.sentence, style: TextStyle(
+                  child: Text("widget.sentence", style: TextStyle(
                     //fontSize: 40,
                     )
                   ),

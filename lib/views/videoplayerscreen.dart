@@ -15,10 +15,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   void initState() {
-    _controller = VideoPlayerController.network(
-      //'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
-      "http://beerabbit.kr/data/${widget.filename}",
-    );
+    _controller = VideoPlayerController.network("http://beerabbit.kr/data/${widget.filename}",);
 
     _initializeVideoPlayerFuture = _controller.initialize();
 
@@ -67,27 +64,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
           }
         },
       );
-      /*
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // 재생/일시 중지 기능을 `setState` 호출로 감쌉니다. 이렇게 함으로써 올바른 아이콘이
-          // 보여집니다.
-          setState(() {
-            // 영상이 재생 중이라면, 일시 중지 시킵니다.
-            if (_controller.value.isPlaying) {
-              _controller.pause();
-            } else {
-              // 만약 영상이 일시 중지 상태였다면, 재생합니다.
-              _controller.play();
-            }
-          });
-        },
-        // 플레이어의 상태에 따라 올바른 아이콘을 보여줍니다.
-        child: Icon(
-          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
-        ),
-      ), // 이 마지막 콤마는 build 메서드에 자동 서식이 잘 적용될 수 있도록 도와줍니다.
-    );
-    */
+
   }
 }

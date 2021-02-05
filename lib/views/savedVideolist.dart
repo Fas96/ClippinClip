@@ -20,9 +20,12 @@ class _SavedFilesState extends State<SavedFiles> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
             List<Map<String, dynamic>> list = snapshot.data.toList();
+            print('--------------------');
+            print(list);
+            print('--------------------');
             return new StaggeredGridView.countBuilder(
               crossAxisCount: 4,
-              itemCount: 14,
+              itemCount: list.length+3,
               itemBuilder: (BuildContext context, int index) => new Container(
                 width: 100,
                 height: 100,
@@ -32,17 +35,12 @@ class _SavedFilesState extends State<SavedFiles> {
                 ),
                 color: Colors.pinkAccent,
                 elevation: 10,
-                child: index < list.length ? 
-                  VideoPlayerScreen(filename: list[index]['filename']) : 
-                  ListTile(
-                    leading:  Icon(Icons.album, size: 70),
-                    title: Text('Heart Shaker', style: TextStyle(color: Colors.white)),
+                child: index < list.length ? VideoPlayerScreen(filename: list[index]['filename']) : ListTile(leading:  Icon(Icons.album, size: 70), title: Text('Heart Shaker', style: TextStyle(color: Colors.white)),
                     subtitle: Text('TWICE', style: TextStyle(color: Colors.white)),
                   ),
                 ),
               ),
-              staggeredTileBuilder: (int index) =>
-              new StaggeredTile.count(2, index.isEven ? 2 : 2), mainAxisSpacing: 4.0, crossAxisSpacing: 4.0,);
+              staggeredTileBuilder: (int index) => new StaggeredTile.count(2, index.isEven ? 2 : 1), mainAxisSpacing: 4.0, crossAxisSpacing: 4.0,);
         }
         else {
           return Center(child: CircularProgressIndicator());
