@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:world_time_app/views/searchresult.dart';
 
 class DoctorsInfo extends StatefulWidget {
   @override
@@ -20,6 +21,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 24),
+
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
@@ -61,7 +63,9 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                               backColor: Color(0xffEBECEF),
                               imgAssetPath: "assets/video_call.png",
                             ),
+
                           ],
+
                         )
                       ],
                     ),
@@ -120,6 +124,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                     ),
                   ),
                   SizedBox(width: 16,),
+
                   Expanded(
                     child: Container(
                       padding: EdgeInsets.symmetric(vertical: 24,horizontal: 16),
@@ -155,6 +160,7 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
                 ],
               ),
             ],
+            
           ),
         ),
       ),
@@ -199,7 +205,7 @@ class _FamousNewsState extends State<FamousNews> {
       onTap: (){
         Navigator.push(context, MaterialPageRoute(
           //prings up the next page
-            builder: (context) => DoctorsInfo()
+            builder: (context) => SearchResult()
         ));
       },
       child: Container(

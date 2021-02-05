@@ -4,15 +4,15 @@ import 'package:intl/intl.dart';
 
 
 class WorldTime{
-  String location; // name of the location
-  String time;//  the current time of the location
-  String flag; //flags of the location
+  String name; // name of the location
+  String lastModified;//  the current time of the location
+  String size; //flags of the location
   String url;  // the url to the location json request
   bool isDayTime=false; // determines if its day or night
 
 
   //constructor
-  WorldTime({this.location, this.flag,this.url});
+  WorldTime({this.name, this.size,this.url});
 //getting data from database
 
   Future<void> getTime() async{
@@ -36,11 +36,9 @@ class WorldTime{
     //adds up the offset from the time zoon
     now = now.add(Duration(hours: int.parse(offset)));
     //using the intl lib to format the date
-    time= DateFormat.jm().format(now);
+    lastModified= DateFormat.jm().format(now);
   }catch(e){
       print('error $e');
-      time='could not get time data';
+      lastModified='could not get time data';
     }
-}
-
-}
+}}
