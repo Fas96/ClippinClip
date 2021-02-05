@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'addbutton.dart';
 
 class SingleClip extends StatefulWidget {
   @override
@@ -23,61 +24,67 @@ class _SingleClipState extends State<SingleClip> {
       drawer: Drawer(
           child: Container()// Populate the Drawer in the next step.
       ),
-      body: Center(
-        child: Column (
-          children: [
-            Expanded(
-              flex: 1,
-              child: FittedBox(
-                fit: BoxFit.fitWidth, 
-                child: Text(widget.sentence, style: TextStyle(
-                  //fontSize: 40,
-                  )
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
-            ),
-            Expanded(
-              flex: 5,
-              child: Padding (
-                padding: EdgeInsets.all(20),
-                child: Container (
-                  width: 400,
-                  height: 300,
-                  decoration: BoxDecoration (
-                    color: Colors.grey,
+      body: Builder (builder: (BuildContext context) {
+          return Center(
+          child: Column (
+            children: [
+              Expanded(
+                flex: 1,
+                child: FittedBox(
+                  fit: BoxFit.fitWidth, 
+                  child: Text(widget.sentence, style: TextStyle(
+                    //fontSize: 40,
+                    )
                   ),
                 ),
-              ),  
-              /*
-              Card(
+              ),
+              Expanded(
+                flex: 1,
+                child: Container(),
+              ),
+              Expanded(
+                flex: 5,
                 child: Padding (
-                  padding: EdgeInsets.all(200),
-                )
+                  padding: EdgeInsets.all(20),
+                  child: Container (
+                    width: 400,
+                    height: 300,
+                    decoration: BoxDecoration (
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),  
+                /*
+                Card(
+                  child: Padding (
+                    padding: EdgeInsets.all(200),
+                  )
+                ),
+                */
               ),
-              */
-            ),
-            Expanded(
-              flex: 2,
-              child: FloatingActionButton(
-                heroTag: null,
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text("추가되었습니다."),
-                  ));
-                },
-                child: Icon(Icons.add), 
+              Expanded(
+                flex: 2,
+                child: addButton(context),
+                /*
+                FloatingActionButton(
+                  heroTag: null,
+                  onPressed: () {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                      content: Text("추가되었습니다."),
+                    ));
+                  },
+                  child: Icon(Icons.add), 
+                ),
+                */
               ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(),
-            ),
-          ],
-        ),
+              Expanded(
+                flex: 1,
+                child: Container(),
+              ),
+            ],
+          ),
+        );
+      }
       )
     );
   }
