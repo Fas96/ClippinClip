@@ -71,94 +71,13 @@ class _DoctorsInfoState extends State<DoctorsInfo> {
               SizedBox(
                 height: 26,
               ),
-              Text(
-                "About",
-                style: TextStyle(fontSize: 22),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                "Dr. Stefeni Albert is a cardiologist in Nashville & affiliated with multiple hospitals in the  area.He received his medical degree from Duke University School of Medicine and has been in practice for more than 20 years. ",
-                style: TextStyle(color: Colors.grey, fontSize: 16),
-              ),
+
               SizedBox(
                 height: 24,
               ),
-              Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Row(
-                        children: <Widget>[
-                          Image.asset("assets/mappin.png"),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Address",
-                                style: TextStyle(
-                                    color: Colors.black87.withOpacity(0.7),
-                                    fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Container(
-                                  width: MediaQuery.of(context).size.width - 268,
-                                  child: Text(
-                                    "House # 2, Road # 5, Green Road Dhanmondi, Dhaka, Bangladesh",
-                                    style: TextStyle(color: Colors.grey),
-                                  ))
-                            ],
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: <Widget>[
-                          Image.asset("assets/clock.png"),
-                          SizedBox(
-                            width: 20,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                "Daily Practict",
-                                style: TextStyle(
-                                    color: Colors.black87.withOpacity(0.7),
-                                    fontSize: 20),
-                              ),
-                              SizedBox(
-                                height: 3,
-                              ),
-                              Container(
-                                  width: MediaQuery.of(context).size.width - 268,
-                                  child: Text(
-                                    '''Monday - Friday
-Open till 7 Pm''',
-                                    style: TextStyle(color: Colors.grey),
-                                  ))
-                            ],
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  Image.asset(
-                    "assets/map.png",
-                    width: 180,
-                  )
-                ],
-              ),
+
               Text(
-                "Activity",
+                "Storage",
                 style: TextStyle(
                     color: Color(0xff242424),
                     fontSize: 28,
@@ -227,13 +146,14 @@ Open till 7 Pm''',
                               style: TextStyle(color: Colors.white,
                                   fontSize: 17),
                             ),
-                          )
+                          ),
                         ],
+
                       ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -260,6 +180,67 @@ class IconTile extends StatelessWidget {
         child: Image.asset(
           imgAssetPath,
           width: 20,
+        ),
+      ),
+    );
+  }
+}
+
+
+class FamousNews extends StatefulWidget {
+  @override
+  _FamousNewsState createState() => _FamousNewsState();
+}
+
+class _FamousNewsState extends State<FamousNews> {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          //prings up the next page
+            builder: (context) => DoctorsInfo()
+        ));
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: Color(0xffFFEEE0),
+            borderRadius: BorderRadius.circular(20)
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 24,
+            vertical: 18),
+        child: Row(
+          children: <Widget>[
+            Image.asset("assets/doctor_pic.png", height: 50,),
+            SizedBox(width: 17,),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text("Dr. Stefeni Albert", style: TextStyle(
+                    color: Color(0xffFC9535),
+                    fontSize: 19
+                ),),
+                SizedBox(height: 2,),
+                Text("Heart Speailist", style: TextStyle(
+                    fontSize: 15
+                ),)
+              ],
+            ),
+            Spacer(),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 15,
+                  vertical: 9),
+              decoration: BoxDecoration(
+                  color: Color(0xffFBB97C),
+                  borderRadius: BorderRadius.circular(13)
+              ),
+              child: Text("Saves", style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500
+              ),),
+            )
+          ],
         ),
       ),
     );
