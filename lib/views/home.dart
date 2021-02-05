@@ -3,6 +3,7 @@ import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
 import 'package:world_time_app/model/usersearch.dart';
 import 'package:flutter/material.dart';
+import 'searchresult.dart';
 
 String selectedCategorie= "Adults";
 
@@ -64,8 +65,7 @@ class _HomePageState extends State<HomePage> {
 
   List<SpecialityModel> specialities;
 
-
-
+  final _controller = TextEditingController();
 
   @override
   void initState() {
@@ -87,8 +87,29 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       drawer: Drawer(
-          child: Container()// Populate the Drawer in the next step.
+          child: Container(
+            child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+            // 드로워해더 추가
+            DrawerHeader(
+            child: Text('Menu'),
+            decoration: BoxDecoration(
+              color: Color(0xffFFD0AA),
+            ),
+           ),
+              ListTile(
+                title: Text('나만의 암기장'),
+                onTap: (){
+
+                  // here 나만의 암기장 push
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        ),// Populate the Drawer in the next step.
       ),
+     ),
       body: SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -111,19 +132,25 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(14)
                 ),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    IconButton(onPressed:(){
-
-                      showSearch(context:context ,delegate: UserSearchString()) ;
-
-                      },icon: Icon(Icons.search)),
+                    IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () => _submitted(_controller.text))
+                    ,
                     SizedBox(width: 10,),
-                    Text("검색", style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 19
-                    ),)
+                    Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      onSubmitted: _submitted,
+                      decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintText: '검색'
+                      ),
+                    ),
+                   )
                   ],
+
                 ),
               ),
               SizedBox(height: 30,),
@@ -178,6 +205,11 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+  void _submitted(String text) {
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => SearchResult(sentence: text)
+    ));
   }
 }
 

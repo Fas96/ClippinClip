@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'singleclip.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
-import 'clip.dart';
 import 'addbutton.dart';
 
 List<String> words = ["I", "am", "a", "man"];
@@ -17,9 +14,15 @@ List<List<String>> sentences = [
 class SearchResult extends StatefulWidget {
   @override
   _SearchResultState createState() => _SearchResultState();
+
+  String sentence;
+  SearchResult({@required this.sentence}) {
+    words = sentence.split(" ");
+  }
 }
 
 class _SearchResultState extends State<SearchResult> {
+  final _controller = TextEditingController();
 
   @override
   void initState() {
@@ -38,8 +41,29 @@ class _SearchResultState extends State<SearchResult> {
         ),
       ),
       drawer: Drawer(
-          child: Container()// Populate the Drawer in the next step.
+          child: Container(
+            child: ListView(
+                padding: EdgeInsets.zero,
+                children: <Widget>[
+            // 드로워해더 추가
+            DrawerHeader(
+            child: Text('Menu'),
+            decoration: BoxDecoration(
+              color: Color(0xffFFD0AA),
+            ),
+           ),
+              ListTile(
+                title: Text('나만의 암기장'),
+                onTap: (){
+
+                  // here 나만의 암기장 push
+                  Navigator.pop(context);
+                },
+              ),
+          ],
+        ),// Populate the Drawer in the next step.
       ),
+     ),
       body: Builder (builder: (BuildContext context) {
         return Column (
           children: [
@@ -53,12 +77,26 @@ class _SearchResultState extends State<SearchResult> {
                 ),
                 child: Row(
                   children: <Widget>[
-                    Icon(Icons.search),
+                    IconButton(
+                        icon: Icon(Icons.search),
+                        onPressed: () => Navigator.push(context, MaterialPageRoute(
+                          builder: (context) => SearchResult(sentence: _controller.text)
+                        ))
+                    ),
                     SizedBox(width: 10,),
-                    Text("검색", style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 19
-                    ),)
+                    Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      onSubmitted: (String text) => Navigator.push(context, MaterialPageRoute(
+                        builder: (context) => SearchResult(sentence: text)
+                      )),
+                      decoration: new InputDecoration(
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          hintText: '검색'
+                      ),
+                    ),
+                   )
                   ],
                 ),
               ),
