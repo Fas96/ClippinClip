@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'savedVideolist.dart';
 import 'package:http/http.dart';
 import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'searchresult.dart';
 import 'singleclip.dart';
 import 'addbutton.dart';
+import 'videoplayerscreen.dart';
 
 String selectedCategorie= "Adults";
 
@@ -58,9 +59,14 @@ class _HomePageState extends State<HomePage> {
               ListTile(
                 title: Text('나만의 암기장'),
                 onTap: (){
-
                   // here 나만의 암기장 push
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                      SavedFiles(),
+                    )
+                  );
                 },
               ),
           ],
@@ -112,44 +118,71 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 30,),
-                Text("Daily Clip", style: TextStyle(
+                Text("Daily Clips", style: TextStyle(
                     color: Colors.black87.withOpacity(0.8),
                     fontSize: 30,
                     fontWeight: FontWeight.w600
                 ),),
                 SizedBox(height: 20,),
 
-                Stack(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                              SingleClip(sentence: "Hello")));
-                        },
-                      child:
-                        Center (
-                          child: Padding (
-                            padding: EdgeInsets.all(30),
-                            child: Container (
-                              width: 300,
-                              height: 225,
-                              decoration: BoxDecoration (
-                                color: Colors.grey,
-                              ),
-                              child: Center(child: Text("Hello")),
-                            ),
+                FutureBuilder (
+                  future: () async {
+                    List list = [];
+                    for(int i = 0; i < 3; i = i + 1) {
+                      //print(i);
+                      Response response = await get( 'http://beerabbit.kr/api/doTest.php' );
+                      List data = jsonDecode(response.body);
+                      list.add(data);
+                    }
+                    return list;
+                  } (),
+                  builder: (context, snapshot) {
+                    if(snapshot.hasData) {
+                      List<Widget> widgetList = [];
+                      for(int i = 0; i < 3; i = i + 1) {
+                        //print(i);
+                        print(snapshot.data);
+                        widgetList.add(Card(
+                            margin: EdgeInsets.all(12),
+                            child: Column(
+                              children: [
+                                Stack(
+                                  children: [
+                                    Center (
+                                      child: Padding (
+                                        padding: EdgeInsets.all(30),
+                                        child: 
+                                        VideoPlayerScreen(filename: snapshot.data[i][1]['filename']),
+                                      ),
+                                    ),
+                                    Positioned(
+                                      right: 10,
+                                      bottom: 10,  
+                                      child: addButton(context, snapshot.data[i][0]['script'], snapshot.data[i][1]['filename']),
+                                    ),
+                                  ],
+                                ),
+                                Center (
+                                  child: Text(
+                                    snapshot.data[i][0]['script'],
+                                    style: TextStyle (
+                                      fontSize: 25
+                                    )
+                                  )
+                                )
+                              ]   
                           ),
-                        ) 
-                    ),
-                    Positioned(
-                      right: 10,
-                      bottom: 10,  
-                      child: addButton(context),
-                    ),
-                  ],
+                        )
+                        );
+                      }
+                      return Column (
+                        children: widgetList,
+                      );
+                    }
+                    else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  }
                 ),
 
               ],
@@ -160,6 +193,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  
 
   Future<void> _submitted(String text) async {
     wordsearch = text;
