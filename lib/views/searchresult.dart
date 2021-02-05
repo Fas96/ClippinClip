@@ -2,29 +2,36 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:world_time_app/views/videoplayerscreen.dart';
 import 'singleclip.dart';
+import 'package:world_time_app/views/savedVideolist.dart';
 import 'addbutton.dart';
 
 List<String> words = ["I", "am", "a", "man"];
 int selectedWordIndex = 0;
-List<List<String>> sentences = [
-  ["I like apples"],
-  ["I am Sam", "Who am I?", "Am..."],
-  ["A friend in need is a friend indeed."],
-  ["Manner makes man", "Man!"],
-];
+List<String> sentences;
 
 String wordsearch='안녕하세요 잘 지내세요';
+Map gData;
 
 class SearchResult extends StatefulWidget {
   @override
   _SearchResultState createState() => _SearchResultState();
 
   Map data;
+
   SearchResult({@required this.data}) {
 
-
+    print(',,,,,,,,,,,,,,');
+    print(data.length);
+    print(data);
+    sentences = [];
+    for(int i=0; i < data.length-1; i++){
+      sentences.add(data[i.toString()].substring(0,(data[i.toString()].length-4)).replaceAll('_', " "));
+    }
+    print(sentences);
     words = data['translated'].split(" ");
+    gData = data;
   }
 }
 
@@ -64,7 +71,10 @@ class _SearchResultState extends State<SearchResult> {
                 onTap: (){
 
                   // here 나만의 암기장 push
-                  Navigator.pop(context);
+                  Navigator.push(context, MaterialPageRoute(
+
+                      builder: (context) => SavedFiles()
+                  ));
                 },
               ),
           ],
@@ -139,75 +149,40 @@ class _SearchResultState extends State<SearchResult> {
               ),
               Expanded(
                 child: ListView (
-                  children: sentences[selectedWordIndex].map<Widget>( (sentence) =>
-                    Stack(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                    SingleClip(sentence: sentence)));
-                            },
-                          child:
-                            Center (
-                              child: Padding (
-                                padding: EdgeInsets.all(30),
-                                child: Container (
-                                  width: 300,
-                                  height: 225,
-                                  decoration: BoxDecoration (
-                                    color: Colors.grey,
-                                  ),
-                                  child: Center(child: Text(sentence)),
-                                ),
-                              ),
-                            ) 
-                            /*
-                            Card (
-                            child: Padding(
-                              padding: EdgeInsets.all(100),
-                              child: Center(child: Text(sentence)),
+                  children:  mapIndexed(
+                    sentences,
+                        (index, sentence) =>
+                            Card(
+                              margin: EdgeInsets.all(12),
+                              child: Column(
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Center (
+                                          child: Padding (
+                                            padding: EdgeInsets.all(30),
+                                            child:
+                                            VideoPlayerScreen(filename: gData[index.toString()]),
+                                          ),
+                                        ),
+                                        Positioned(
+                                          right: 10,
+                                          bottom: 10,
+                                          child: addButton(context, sentence, gData[index.toString()]),
+                                        ),
+                                      ],
+                                    ),
+                                    Center (
+                                        child: Text(
+                                            sentence,
+                                            style: TextStyle (
+                                                fontSize: 25
+                                            )
+                                        )
+                                    )
+                                  ]
                               ),
                             ),
-                          */
-                        ),
-                        Positioned(
-                          right: 30,
-                          bottom: 10,  
-                          child: addButton(context),
-                          /*
-                          FloatingActionButton(
-                            heroTag: null,
-                            onPressed: () async { 
-                              final Future<Database> database = openDatabase(
-                                join(await getDatabasesPath(), "saved_clips.db"),
-                                onCreate: (db, version) {
-                                  return db.execute(
-                                    "CREATE TABLE clips(filename TEXT PRIMARY KEY)",
-                                  );
-                                },
-                                version: 1,
-                              );
-
-                              final Database db = await database;
-                              await db.insert(
-                                "clips",
-                                Clip(filename: "just_call_me_call_me_call_me_call_me_call_me.mp4").toMap(),
-                                conflictAlgorithm: ConflictAlgorithm.ignore,
-                              );
-
-                              Scaffold.of(context).showSnackBar(SnackBar(
-                                content: Text("추가되었습니다."),
-                            ));
-                            },
-                            child: Icon(Icons.add), 
-                          ),
-                          */
-                        ),
-                      ],
-                    ),
                   ).toList(),
                 ),
               ),         
@@ -218,16 +193,26 @@ class _SearchResultState extends State<SearchResult> {
     );
   }
   Future<void> _submitted(String text) async {
+    print(text);
     wordsearch = text;
     Response response = await get( 'http://beerabbit.kr/api/clipApi.php?kor='+wordsearch);
     //convert to json
-    Map data=jsonDecode(response.body);
+    Map sdata=jsonDecode(response.body);
     print('--------------------response---------------------');
-    print('http://beerabbit.kr/data/'+ data['0']);
+    print('http://beerabbit.kr/data/'+ sdata['0']);
 
     Navigator.push(context, MaterialPageRoute(
 
-        builder: (context) => SearchResult(data: data)
+        builder: (context) => SearchResult(data: sdata)
     ));
+  }
+  Iterable<E> mapIndexed<E, T>(
+      Iterable<T> items, E Function(int index, T item) f) sync* {
+    var index = 0;
+
+    for (final item in items) {
+      yield f(index, item);
+      index = index + 1;
+    }
   }
 }

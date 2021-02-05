@@ -64,7 +64,7 @@ class _SingleClipState extends State<SingleClip> {
               ),
               Expanded(
                 flex: 2,
-                child: addButton(context),
+                child: Container(), //addButton(context),
                 /*
                 FloatingActionButton(
                   heroTag: null,

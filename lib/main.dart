@@ -15,7 +15,7 @@ void main() {
         // '/':(context)=>LoadLocation(),
       // '/home':(context)=>Home(),
       '/location':(context)=>ChooseLocation(),
-      '/':(context)=>SavedFiles()//HomePage(),
+      '/':(context)=>HomePage(),
     },
 
   ));
