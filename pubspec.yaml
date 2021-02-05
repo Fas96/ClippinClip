@@ -29,6 +29,7 @@ dependencies:
   flutter_svg: ^0.17.4
   sqflite:
   path:
+  video_player:
 
   freezed_annotation: ^0.12.0
   tuple: ^1.0.3

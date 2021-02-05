@@ -6,6 +6,7 @@ import 'package:world_time_app/pages/loading.dart';
 import 'package:world_time_app/views/home.dart';
 import 'package:world_time_app/views/savedVideolist.dart';
 import 'package:world_time_app/views/searchresult.dart';
+import 'views/savedVideolist.dart';
 
 void main() {
   runApp( MaterialApp(
@@ -14,7 +15,7 @@ void main() {
         // '/':(context)=>LoadLocation(),
       // '/home':(context)=>Home(),
       '/location':(context)=>ChooseLocation(),
-      '/':(context)=>HomePage(),
+      '/':(context)=>SavedFiles()//HomePage(),
     },
 
   ));
