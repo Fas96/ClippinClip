@@ -1,14 +1,13 @@
-import 'package:world_time_app/data/data.dart';
 import 'package:world_time_app/model/speciality.dart';
-import 'package:world_time_app/views/doctor_info.dart';
 import 'package:flutter/material.dart';
+import 'singleclip.dart';
 
 List<String> words = ["I", "am", "a", "man"];
 int selectedWordIndex = 0;
 List<List<String>> sentences = [
   ["I like apples"],
-  ["I am Sam", "Who am I?"],
-  ["A piece of cake"],
+  ["I am Sam", "Who am I?", "Am..."],
+  ["A friend in need is a friend indeed."],
   ["Manner makes man", "Man!"],
 ];
 
@@ -18,8 +17,6 @@ class SearchResult extends StatefulWidget {
 }
 
 class _SearchResultState extends State<SearchResult> {
-
-  List<SpecialityModel> specialities;
 
   @override
   void initState() {
@@ -98,11 +95,53 @@ class _SearchResultState extends State<SearchResult> {
             Expanded(
               child: ListView (
                 children: sentences[selectedWordIndex].map<Widget>( (sentence) =>
-                  Card (
-                    child: Padding(
-                      padding: EdgeInsets.all(100),
-                      child: Center(child: Text(sentence)),
+                  Stack(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                  SingleClip(sentence: sentence)));
+                          },
+                        child:
+                          Center (
+                            child: Padding (
+                              padding: EdgeInsets.all(30),
+                              child: Container (
+                                width: 300,
+                                height: 225,
+                                decoration: BoxDecoration (
+                                  color: Colors.grey,
+                                ),
+                                child: Center(child: Text(sentence)),
+                              ),
+                            ),
+                          ) 
+                          /*
+                          Card (
+                          child: Padding(
+                            padding: EdgeInsets.all(100),
+                            child: Center(child: Text(sentence)),
+                            ),
+                          ),
+                        */
                       ),
+                      Positioned(
+                        right: 30,
+                        bottom: 10,  
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text("추가되었습니다."),
+                          ));
+                          },
+                          child: Icon(Icons.add), 
+                        ),
+                      ),
+                    ],
                   ),
                 ).toList(),
               ),
