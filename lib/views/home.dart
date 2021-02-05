@@ -1,6 +1,7 @@
 import 'package:world_time_app/data/data.dart';
 import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
+import 'package:world_time_app/model/usersearch.dart';
 import 'package:flutter/material.dart';
 
 String selectedCategorie= "Adults";
@@ -9,12 +10,62 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+//
+class UserSearchString extends SearchDelegate{
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [IconButton(icon: Icon(Icons.close), onPressed: (){
 
+
+    })];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    // TODO: implement buildLeading
+    return IconButton(icon: Icon(Icons.arrow_back),onPressed: (){
+
+      Navigator.pop(context);
+
+    });
+  }
+  String selectedResult;
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return Container(
+      child: Center(
+        child: Text(selectedResult),
+      ),
+    );
+
+  }
+
+  List<String> recentList = ['Text 2','Text 3'];
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> listExample =['Text 2','Text 3'];
+      List<String> suggestLst =[];
+          query.isEmpty ?  suggestLst =recentList:suggestLst.addAll(listExample.where(
+            (element)=>element.contains(query),
+          )) ;
+
+          return ListView.builder(itemCount:suggestLst.length,itemBuilder: (context,index){
+            return ListTile(
+              title: Text(suggestLst[index]),
+            );
+          });
+  }
+
+}
 class _HomePageState extends State<HomePage> {
 
   List<String> categories = ["Adults","Childrens","Womens","Mens"];
 
   List<SpecialityModel> specialities;
+
+
+
 
   @override
   void initState() {
@@ -60,8 +111,13 @@ class _HomePageState extends State<HomePage> {
                   borderRadius: BorderRadius.circular(14)
                 ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Icon(Icons.search),
+                    IconButton(onPressed:(){
+
+                      showSearch(context:context ,delegate: UserSearchString()) ;
+
+                      },icon: Icon(Icons.search)),
                     SizedBox(width: 10,),
                     Text("검색", style: TextStyle(
                       color: Colors.grey,
@@ -200,6 +256,7 @@ class SpecialistTile extends StatelessWidget {
   }
 }
 
+
 class DoctorsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -242,7 +299,7 @@ class DoctorsTile extends StatelessWidget {
                 color: Color(0xffFBB97C),
                 borderRadius: BorderRadius.circular(13)
               ),
-              child: Text("Call", style: TextStyle(
+              child: Text("Saves", style: TextStyle(
                 color: Colors.white,
                 fontSize: 13,
                 fontWeight: FontWeight.w500
