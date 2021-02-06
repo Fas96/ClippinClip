@@ -14,6 +14,9 @@ class _SavedFilesState extends State<SavedFiles> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+
+          title: Text('나만의 암기장'),),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: (){
             Navigator.pushNamed(context, '/simpleClip',arguments:
@@ -41,7 +44,7 @@ class _SavedFilesState extends State<SavedFiles> {
             print('--------------------');
             return new StaggeredGridView.countBuilder(
               crossAxisCount: 4,
-              itemCount: list.length+3,
+              itemCount: list.length,
               itemBuilder: (BuildContext context, int index) => new Container(
 
                 width: 100,
@@ -50,7 +53,7 @@ class _SavedFilesState extends State<SavedFiles> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(15.0),
                 ),
-                color: Colors.pinkAccent,
+                color: Colors.lightBlue,
                 elevation: 10,
                 child: index < list.length ? VideoPlayerScreen(filename: list[index]['filename']) : ListTile(leading:  Icon(Icons.album, size: 70), title: Text('Heart Shaker', style: TextStyle(color: Colors.white)),
                     subtitle: Text('TWICE', style: TextStyle(color: Colors.white)),

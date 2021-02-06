@@ -5,7 +5,6 @@ import 'package:world_time_app/model/speciality.dart';
 import 'package:world_time_app/views/doctor_info.dart';
 import 'package:flutter/material.dart';
 import 'searchresult.dart';
-import 'singleclip.dart';
 import 'addbutton.dart';
 import 'videoplayerscreen.dart';
 
